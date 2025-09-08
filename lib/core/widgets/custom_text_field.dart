@@ -1,18 +1,34 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({super.key, this.hint, this.validator, required this.controller});
+  const CustomTextField({
+    super.key,
+    this.hint,
+    this.validator,
+    required this.controller,
+    this.maxLines,
+    this.suffixIcon,
+    this.readOnly = false,
+    this.onTap,
+  });
 
   final String? hint;
+  final int? maxLines;
   final String? Function(String?)? validator;
   final TextEditingController controller;
+  final Widget? suffixIcon;
+  final bool readOnly;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       validator: validator,
+      readOnly: readOnly,
       controller: controller,
-      decoration: InputDecoration(hintText: hint),
+      maxLines: maxLines,
+      onTap: onTap,
+      decoration: InputDecoration(hintText: hint, suffixIcon: suffixIcon),
     );
   }
 }

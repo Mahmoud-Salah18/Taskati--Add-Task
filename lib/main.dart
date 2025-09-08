@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:taskati/core/constants/app_fonts.dart';
+import 'package:taskati/core/services/local_helper.dart';
 import 'package:taskati/core/utils/colors.dart';
 import 'package:taskati/features/splash/splash_screen.dart';
-import 'package:taskati/features/task/add_task_screen.dart';
+import 'package:taskati/features/add_task/add_task_screen.dart';
 
-void main() {
+Future<void> main() async {
+  await Hive.initFlutter();
+  await LocalHelper.init();
   runApp(const MainApp());
 }
 
@@ -41,7 +46,7 @@ class MainApp extends StatelessWidget {
         )
       )
       ),
-      home: AddTaskPage(),
+      home: SplashScreen(),
     );
   }
 }

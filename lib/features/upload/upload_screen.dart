@@ -1,12 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taskati/core/constants/app_images.dart';
 import 'package:taskati/core/functions/dialogs.dart';
+import 'package:taskati/core/functions/navigation.dart';
+import 'package:taskati/core/services/local_helper.dart';
 import 'package:taskati/core/utils/colors.dart';
 import 'package:taskati/core/widgets/custom_text_field.dart';
 import 'package:taskati/core/widgets/main_button.dart';
+import 'package:taskati/features/home/page/home_screen.dart';
 
 class UploadScreen extends StatefulWidget {
   const UploadScreen({super.key});
@@ -16,7 +20,7 @@ class UploadScreen extends StatefulWidget {
 }
 
 class _UploadScreenState extends State<UploadScreen> {
-  String path = "";
+  String imagePath = "";
   var nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -25,16 +29,20 @@ class _UploadScreenState extends State<UploadScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              if (path.isNotEmpty && nameController.text.isNotEmpty) {
-                
-              } else if (path.isNotEmpty && nameController.text.isEmpty) {
+              if (imagePath.isNotEmpty && nameController.text.isNotEmpty) {
+                LocalHelper.putUserData(nameController.text, imagePath);
+                pushWithReplacement(context, HomeScreen());
+              } else if (imagePath.isNotEmpty && nameController.text.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Please Enter Your Name")),
                 );
-              } else if (path.isEmpty && nameController.text.isNotEmpty) {
+              } else if (imagePath.isEmpty && nameController.text.isNotEmpty) {
                 showErrorDialog(context, "Please Upload Your Image");
               } else {
-                showErrorDialog(context, "Please Enter Your Name And Upload Your Image  ");
+                showErrorDialog(
+                  context,
+                  "Please Enter Your Name And Upload Your Image  ",
+                );
               }
             },
             child: Text("Done"),
@@ -51,8 +59,8 @@ class _UploadScreenState extends State<UploadScreen> {
                 CircleAvatar(
                   radius: 80,
                   backgroundColor: AppColors.primaryColor,
-                  backgroundImage: path.isNotEmpty
-                      ? FileImage(File(path))
+                  backgroundImage: imagePath.isNotEmpty
+                      ? FileImage(File(imagePath))
                       : AssetImage(AppImages.emptyUser),
                 ),
                 SizedBox(height: 20),
@@ -76,6 +84,12 @@ class _UploadScreenState extends State<UploadScreen> {
                 SizedBox(height: 20),
                 CustomTextField(
                   controller: nameController,
+                  validator: (v) {
+                    if (v == null || v.isEmpty) {
+                      return "Please Enter Your Name";
+                    }
+                    return null;
+                  },
                   hint: "Enter Your Name ",
                 ),
               ],
@@ -93,7 +107,7 @@ class _UploadScreenState extends State<UploadScreen> {
 
     if (file != null) {
       setState(() {
-        path = file.path;
+        imagePath = file.path;
       });
     }
   }

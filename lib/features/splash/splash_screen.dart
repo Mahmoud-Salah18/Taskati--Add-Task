@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
       }else{
         pushWithReplacement(context, const UploadScreen());
-      }
+       }
     });
   }
 

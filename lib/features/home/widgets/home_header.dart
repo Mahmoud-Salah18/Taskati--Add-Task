@@ -6,9 +6,7 @@ import 'package:taskati/core/utils/colors.dart';
 import 'package:taskati/core/utils/text_styles.dart';
 
 class HomeHeader extends StatelessWidget {
-  const HomeHeader({
-    super.key,
-  });
+  const HomeHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,22 +18,23 @@ class HomeHeader extends StatelessWidget {
             children: [
               Text(
                 "Hello, ${LocalHelper.getData(LocalHelper.kname)}",
-                style: TextStyles.titleStyle(
-                  color: AppColors.primaryColor,
-                ),
+                style: TextStyles.titleStyle(color: AppColors.primaryColor),
               ),
-              Text("Have a Nice day", style: TextStyles.bodyStyle(),),
+              Text("Have a Nice day", style: TextStyles.bodyStyle()),
             ],
           ),
+        ),
+        IconButton(
+          onPressed: () {
+            LocalHelper.changeTheme();
+          },
+          icon: Icon(Icons.dark_mode, color: AppColors.orangeColor),
         ),
         CircleAvatar(
           radius: 26,
           backgroundColor: AppColors.primaryColor,
-          backgroundImage:
-              LocalHelper.getData(LocalHelper.kimage) != null
-              ? FileImage(
-                  File(LocalHelper.getData(LocalHelper.kimage)),
-                )
+          backgroundImage: LocalHelper.getData(LocalHelper.kimage) != null
+              ? FileImage(File(LocalHelper.getData(LocalHelper.kimage)))
               : AssetImage(AppImages.emptyUser),
         ),
       ],

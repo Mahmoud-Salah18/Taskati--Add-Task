@@ -34,7 +34,7 @@ class LocalHelper {
 
   static putUserData(String name, String image) {
     putData(kname, name);
-    putData(kimage, kimage);
+    putData(kimage, image);
     putData(kIsUploaded, true);
   }
 

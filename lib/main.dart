@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:taskati/core/constants/app_fonts.dart';
 import 'package:taskati/core/services/local_helper.dart';
-import 'package:taskati/core/utils/colors.dart';
 import 'package:taskati/core/utils/theme.dart';
 import 'package:taskati/features/splash/splash_screen.dart';
-import 'package:taskati/features/add_edit_task/add_edit_task_screen.dart';
 
 Future<void> main() async {
   await Hive.initFlutter();
@@ -22,15 +18,15 @@ class MainApp extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: LocalHelper.userBox.listenable(),
       builder: (context, box, child) {
-       bool isDark = box.get(LocalHelper.kIsDark) ?? false;
+        bool isDark = box.get(LocalHelper.kIsDark) ?? false;
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          themeMode:  isDark? ThemeMode.dark : ThemeMode.light,
+          themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
           darkTheme: AppTheme.darkTheme,
           theme: AppTheme.lightTheme,
           home: SplashScreen(),
         );
-      }
+      },
     );
   }
 }
